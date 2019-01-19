@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="http://lib.sinaapp.com/js/jquery/2.0.2/jquery-2.0.2.min.js"></script>
+</head>
+<style>
+  .switcher {
+    min-width: 550px;  /* 2x leftContent width + rightContent width */
+    font-weight: bold;
+    font-size: 20px;
+  }
+  
+  b{
+    margin-left: 10px;
+    margin-top: 10px;
+  }
+  .button{
+    width: 100px;
+    height: 40px;
+    color: white;
+    font-size: 18px;
+    background-color: #269f42;
+    background-position: -.5em;
+    border-color: rgba(27,31,35,.5);
+    border-radius: 5px;
+  }
+  code{
+    color: #d14;
+    font-size: .87em;
+    padding: .065em .4em;
+  }
+</style>
+  <body>
+    <style>
+    /*
+      layout-float 
+      浮动布局
+    */
+      #layout-float #header, #layout-float #footer {
+        background: rgba(29, 27, 27, 0.726);
+        text-align: center;
+        height: 60px;
+        line-height: 60px;
+      }
+      #layout-float #footer {
+        clear: both;
+      }
+      #layout-float #container {
+        padding-left: 200px;   /* leftContent width */
+        padding-right: 150px;  /* rightContent width */
+        overflow: hidden;
+      }
+      #layout-float #container .column {
+        position: relative;
+        float: left;
+        text-align: center;
+        height: 300px;
+        line-height: 300px;
+      }
+      #layout-float #center {
+        width: 100%;
+        background: rgb(206, 201, 201);
+      }
+      #layout-float #left {
+        width: 200px;           /* leftContent width */
+        right: 200px;           /* leftContent width */
+        margin-left: -100%;
+        background: rgba(95, 179, 235, 0.972);
+      }
+      #layout-float #right {
+        width: 150px;           /* rightContent width */
+        margin-right: -150px;   /* rightContent width */
+        background: rgb(231, 105, 2);
+      }
+
+    </style>
+    <div id="layout-float" class="switcher">
+      <div id="header">
+        <input class="btn-float button" type="button" name="float" value="float">
+        <input class="btn-flex button" type="button" name="flex" value="flex">
+        <input class="btn-grid button" type="button" name="grid" value="grid">
+      </div>
+      <div id="container">
+        <div id="center" class="column"
+          style="text-align: left;line-height: normal;font-weight: normal; font-size: 20px;">
+          <b>float布局</b>
+          <ul><li>先定义好header和footer的样式，使之横向撑满。</li><li>在container中的三列设为浮动和相对定位(后面会用到)，center要放在最前面，footer清除浮动。</li><li>三列的左右两列分别定宽200px和150px，中间部分center设置100%撑满</li><li>这样因为浮动的关系，center会占据整个container，左右两块区域被挤下去了</li><li>接下来设置left的 <code>margin-left: -100%;</code>，让left回到上一行最左侧</li><li>但这会把center给遮住了，所以这时给外层的container设置 <code>padding-left: 200px;padding-right: 150px;</code>，给left和right空出位置</li><li>这时left并没有在最左侧，因为之前已经设置过相对定位，所以通过 <code>left: -200px;</code> 把left拉回最左侧</li><li>同样的，对于right区域，设置 <code>margin-right: -150px;</code> 把right拉回第一行</li><li>这时右侧空出了150px的空间，所以最后设置 right: -150px;把right区域拉到最右侧就行了。</li></ul>
+        </div>
+        <div id="left" class="column">#left</div>
+        <div id="right" class="column">#right</div>
+      </div>
+      <div id="footer">#footer</div>
+    </div>
+
+    <style>
+    /*
+      layout-flex 
+    */
+      #layout-flex #header,#layout-flex #footer {
+        background: rgba(29, 27, 27, 0.726);
+        text-align: center;
+        height: 60px;
+        line-height: 60px;
+      }
+      #layout-flex #container {
+       display: flex;
+      }
+      #layout-flex #container .column {
+        text-align: center;
+        height: 300px;
+        line-height: 300px;
+      }
+      #layout-flex #center {
+        flex: 1;
+        background: rgb(206, 201, 201);
+      }
+      #layout-flex #left {
+        width: 200px;        
+        background: rgba(95, 179, 235, 0.972);
+      }
+      #layout-flex #right {
+        width: 150px;           
+        background: rgb(231, 105, 2);
+      }
+    </style>
+    <div id="layout-flex" class="switcher" hidden="true">
+      <div id="header">
+        <input class="btn-float button" type="button" name="float" value="float">
+        <input class="btn-flex button" type="button" name="flex" value="flex">
+        <input class="btn-grid button" type="button" name="grid" value="grid">
+      </div>
+      <div id="container">
+        <div id="left" class="column">#left</div>
+        <div id="center" class="column"
+          style="text-align: left;line-height: normal;font-weight: normal; font-size: 20px;">
+          <b>flex布局</b>
+          <ul><li>header和footer设置样式，横向撑满。</li><li>container中的left、center、right依次排布即可</li><li>给container设置弹性布局 <code>display: flex;</code></li><li>left和right区域定宽，center设置 <code>flex: 1;</code> 即可</li></ul>
+        </div>
+        <div id="right" class="column">#right</div>
+      </div>
+      <div id="footer">#footer</div>
+    </div>
+
+    <style>
+    /*
+    .layout-grid 
+    */
+      #layout-grid {
+        display: grid;
+      }
+      #layout-grid #header,#layout-grid #footer {
+        background: rgba(29, 27, 27, 0.726);
+        text-align: center;
+        height: 60px;
+        line-height: 60px;
+      }
+      #layout-grid #header {
+        grid-row: 1;
+        grid-column: 1/5;
+      }
+      #layout-grid #footer {
+        grid-row: 3;
+        grid-column: 1/5;
+      }
+      #layout-grid .column {
+        text-align: center;
+        height: 300px;
+        line-height: 300px;
+      }
+      #layout-grid #left {
+        grid-row: 2;
+        grid-column: 1/2;
+        background: rgba(95, 179, 235, 0.972);
+      }
+      #layout-grid #center {
+        grid-row: 2;
+        grid-column: 2/4;
+        background: rgb(206, 201, 201);
+      }
+      #layout-grid #right {
+        grid-row: 2;
+        grid-column: 4/5;
+        background: rgb(231, 105, 2);
+      }
+    </style>
+    <div id="layout-grid" class="switcher" hidden="true">
+      <div id="header">
+        <input class="btn-float button" type="button" name="float" value="float">
+        <input class="btn-flex button" type="button" name="flex" value="flex">
+        <input class="btn-grid button" type="button" name="grid" value="grid">
+      </div>
+      <div id="left" class="column">#left</div>
+      <div id="center" class="column" 
+        style="text-align: left;line-height: normal;font-weight: normal; font-size: 20px;">
+        <b >Grid布局</b>
+
+        <ul><li>给body元素添加<code>display: grid;</code>属性变成一个grid(网格)</li><li>给header元素设置grid-row: 1; 和 grid-column: 1/5; 意思是占据第一行网格的从第一条列网格线开始到第五条列网格线结束</li><li>给footer元素设置grid-row: 1; 和 grid-column: 1/5; 意思是占据第三行网格的从第一条列网格线开始到第五条列网格线结束</li><li>给left元素设置grid-row: 2; 和 grid-column: 1/2; 意思是占据第二行网格的从第一条列网格线开始到第二条列网格线结束</li><li>给center元素设置grid-row: 2; 和 grid-column: 2/4; 意思是占据第二行网格的从第二条列网格线开始到第四条列网格线结束</li><li>给right元素设置grid-row: 2; 和 grid-column: 4/5; 意思是占据第二行网格的从第四条列网格线开始到第五条列网格线结束</li></ul>
+      </div>
+      <div id="right" class="column">#right</div>
+      <div id="footer">#footer</div>
+    </div>
+
+    <div class="switcher">
+      <h3>圣杯布局要求</h3>
+      <ul><li>header和footer各自占领屏幕所有宽度，高度固定。</li><li>中间的container是一个三栏布局。</li><li>三栏布局两侧宽度固定不变，中间部分自动填充整个区域。</li><li>中间部分的高度是三栏中最高的区域的高度。</li></ul>
+    </div>
+  </body>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+        $("#layout-float").show();
+        $("#layout-flex").hide();
+        $("#layout-grid").hide();
+      $(".btn-float").click(function(){
+        console.log("float")
+        $("#layout-float").show();
+        $("#layout-flex").hide();
+        $("#layout-grid").hide();
+      })
+      $(".btn-flex").click(function(){
+        console.log("flex")
+        $("#layout-float").hide();
+        $("#layout-flex").show();
+        $("#layout-grid").hide();
+      })
+      $(".btn-grid").click(function(){
+        console.log("grid")
+        $("#layout-float").hide();
+        $("#layout-flex").hide();
+        $("#layout-grid").show();
+      })
+    });
+  </script>
+</html>
