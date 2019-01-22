@@ -20,9 +20,11 @@
 			/*height: 100vh;*/
 			min-height: 100vh;
 		}
-		.header,.footer{
+		.header{
 			background-color: orange;
-			height: 100px;
+			height: 60px;
+			display: flex;
+			justify-content: space-around;
 		}
 		.body{
 			flex:1;
@@ -83,10 +85,6 @@
 		  border-color: rgba(27,31,35,.5);
 		  border-radius: 5px;
 		}
-		.header{
-			display: flex;
-			justify-content: space-around;
-		}
 		.text-input{
 			margin-top: 10px;
 			flex:0 0 30%;
@@ -146,25 +144,62 @@
 			flex-direction: column;
 			justify-content: space-between;
 		}
+
+
+		.footer{
+			background-color: pink;
+			min-height: 148px;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-around;
+			justify-content: center;
+		}
+		.game_info{
+			/*由于父级为min-height所以100%不能匹配父级高度*/
+			height: auto;
+			flex:1;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+		}
+		.game_info span{
+			/*flex:1;*/
+			flex:0 0 60px;
+			line-height:60px;
+/*			text-align: center;
+			vertical-align:middle;*/
+		}
 	</style>
 	<div class="container">
 		<div class="header">
 			<input class="text-input" id="dice_num" type="text" value="1"/>
 	        <input class="btn-dice button" type="button" value="dice"/>
 		</div>
-		<div class="body-hide" hidden="true">
+		<div class="footer">
 			<div class="face1">
 				<span class="point"></span>
+			</div>
+			<div id="gi1" class="game_info">
+				<span class="gi_num">个数</span>
+				<span class="gi_percent">占比</span>
 			</div>
 			<div class="face2">
 				<span class="point"></span>
 				<span class="point"></span>
+			</div>
+			<div id="gi2" class="game_info">
+				<span class="gi_num">个数</span>
+				<span class="gi_percent">占比</span>
 			</div>
 
 			<div class="face3">
 				<span class="point"></span>
 				<span class="point"></span>
 				<span class="point"></span>
+			</div>
+			<div id="gi3" class="game_info">
+				<span class="gi_num">个数</span>
+				<span class="gi_percent">占比</span>
 			</div>
 
 			<div class="face4">
@@ -176,6 +211,10 @@
 					<span class="point"></span>
 					<span class="point"></span>
 				</div>
+			</div>
+			<div id="gi4" class="game_info">
+				<span class="gi_num">个数</span>
+				<span class="gi_percent">占比</span>
 			</div>
 			<div class="face5">
 				<div class="row">
@@ -190,6 +229,10 @@
 					<span class="point"></span>
 				</div>
 			</div>
+			<div id="gi5" class="game_info">
+				<span class="gi_num">个数</span>
+				<span class="gi_percent">占比</span>
+			</div>
 			<div class="face6">
 				<div class="column">
 					<span class="point"></span>
@@ -202,12 +245,25 @@
 					<span class="point"></span>
 				</div>
 			</div>
+			<div id="gi6" class="game_info">
+				<span class="gi_num">个数</span>
+				<span class="gi_percent">占比</span>
+			</div>
 		</div>
 		<div class="body">
 		</div>
-		<div class="footer"></div>
 	</div>
 	<script type="text/javascript">
+		function getInitInfo(){
+			return {
+				dice1 : 0,
+				dice2 : 0,
+				dice3 : 0,
+				dice4 : 0,
+				dice5 : 0,
+				dice6 : 0,
+			}
+		}
 		function hideAll(){
 			$(".body").empty();
 		}
@@ -218,40 +274,69 @@
 			}
 			return randArray;
 		};
+		function setGameInfo(infoArray){
+
+		}
 		function getDice(num){
 			hideAll();
+			var info = getInitInfo();
 			var rn = getRandom(num);
-			for(var i =0;i<num;i++){
+			for(var i = 0; i<num;i++){
 				console.log(rn[i]);
 				switch(rn[i]){
 					case 1:
 						// 1、.children(selector)
 						// 2、.find(selector)
-						var dice1 = $(".body-hide >.face1").clone();
+						var dice1 = $(".footer >.face1").clone();
 						$(".body").append(dice1);
+						info.dice1++;
 						break;
 					case 2:
-						var dice2 = $(".body-hide > .face2").clone();
+						var dice2 = $(".footer > .face2").clone();
 						$(".body").append(dice2);
+						info.dice2++;
 						break;
 					case 3:
-						var dice3 = $(".body-hide > .face3").clone();
+						var dice3 = $(".footer > .face3").clone();
 						$(".body").append(dice3);
+						info.dice3++;
 						break;
 					case 4:
-						var dice4 = $(".body-hide > .face4").clone();
+						var dice4 = $(".footer > .face4").clone();
 						$(".body").append(dice4);
+						info.dice4++;
 						break;
 					case 5:
-						var dice5 = $(".body-hide > .face5").clone();
+						var dice5 = $(".footer > .face5").clone();
 						$(".body").append(dice5);
+						info.dice5++;
 						break;
 					case 6:
-						var dice6 = $(".body-hide > .face6").clone();
+						var dice6 = $(".footer > .face6").clone();
 						$(".body").append(dice6);
+						info.dice6++;
 						break;
 				}
 			}
+
+			$("#gi1 > .gi_num").text('个数: '+info.dice1);
+			$("#gi1 > .gi_percent").text('占比: '+(info.dice1 / num * 100).toFixed(2) + '%');
+
+			$("#gi2 > .gi_num").text('个数: '+info.dice2);
+			$("#gi2 > .gi_percent").text('占比: '+(info.dice2 / num * 100).toFixed(2)  + '%');
+
+			$("#gi3 > .gi_num").text('个数: '+info.dice3);
+			$("#gi3 > .gi_percent").text('占比: '+(info.dice3 / num * 100).toFixed(2) + '%');
+
+			$("#gi4 > .gi_num").text('个数: '+info.dice4);
+			$("#gi4 > .gi_percent").text('占比: '+(info.dice4 / num * 100).toFixed(2) + '%');
+
+			$("#gi5 > .gi_num").text('个数: '+info.dice5);
+			$("#gi5 > .gi_percent").text('占比: '+(info.dice5 / num * 100).toFixed(2) + '%');
+
+			$("#gi6 > .gi_num").text('个数: '+info.dice6);
+			$("#gi6 > .gi_percent").text('占比: '+(info.dice6 / num * 100).toFixed(2) + '%');
+
 		}
 		$(document).ready(function(){
 			hideAll();
